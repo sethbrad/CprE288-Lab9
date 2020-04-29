@@ -1,13 +1,26 @@
+#include "button.h"
 #include "Timer.h"
 #include "lcd.h"
-#include "ping.h"
+#include "cyBot_Scan.h"
+#include "cybot_uart.h"
+#include "lab9.c"
 
 /**
  * main.c
  */
 int main(void)
 {
-    timer_init(); // Must be called before lcd_init(), which uses timer functions
+
+    button_init();
+    timer_init();
     lcd_init();
 
+    //sweep sensors
+    sensor_sweep();
+
+    //send data to Putty
+
+    //identify objects
+
+    //convert to linear width
 }

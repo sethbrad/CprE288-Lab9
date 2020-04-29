@@ -1,8 +1,7 @@
 
-#include <inc/tm4c123gh6pm.h>
+#include <REF_tm4c123gh6pm.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include "driverlib/interrupt.h"
 
 void adc_init(void)
 {
