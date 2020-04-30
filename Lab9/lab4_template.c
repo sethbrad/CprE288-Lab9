@@ -9,7 +9,6 @@
  * @author Phillip Jones, updated 6/4/2019
  */
 
-#include "button.h"
 #include "timer.h"
 #include "lcd.h"
 #include <stdio.h>

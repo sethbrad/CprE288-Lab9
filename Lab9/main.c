@@ -1,4 +1,3 @@
-#include "button.h"
 #include "Timer.h"
 #include "lcd.h"
 #include "cyBot_Scan.h"
@@ -11,16 +10,16 @@
 int main(void)
 {
 
-    button_init();
     timer_init();
     lcd_init();
 
-    //sweep sensors
+    //sweep sensors and displays on Putty
     sensor_sweep();
 
-    //send data to Putty
-
+    //use IR for arc length and PING for distance
     //identify objects
+
+    //point servo at object
 
     //convert to linear width
 }

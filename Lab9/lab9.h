@@ -11,6 +11,7 @@
 //cyBot_Scan and send data to Putty
 void sensor_sweep(void);
 
-
+//convert radius and angle data into arc distance
+float convert_distance(float angle, float distance);
 
 #endif /* LAB9_H_ */

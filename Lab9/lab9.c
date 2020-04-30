@@ -1,8 +1,10 @@
-#include "button.h"
 #include "Timer.h"
 #include "lcd.h"
 #include "cyBot_Scan.h"
 #include "cybot_uart.h"
+#include "ping.h"
+#include "ping_distance.h"
+#include "stdbool.h"
 
 /*
  * lab9.c
@@ -31,17 +33,6 @@ void sensor_sweep()
     cyBot_uart_init_last_half();  // Complete the UART device configuration
     cyBOT_init_Scan();
 
-    /*
-     while (1)
-     {
-     char in = cyBot_getByte_blocking();
-     if (in == 'm')
-     {
-     break;
-     }
-     }
-     */
-
     cyBOT_Scan_t scan;
 
     char header[] = "Angle\tPING Distance\tIR raw value";
@@ -57,8 +48,14 @@ void sensor_sweep()
     cyBot_sendByte('\n');
     cyBot_sendByte('\r');
 
+    int temp = 0; //temp for comparing IR values
+    int current = 0;
+
+    int start_angle = 0;
+    int stop_angle = 0;
+
     int i;
-    for (i = 0; i < 185; i += 5)
+    for (i = 0; i <= 180; i += 5)
     {
         //Scan and print i
         cyBOT_Scan(i, &scan);
@@ -72,9 +69,19 @@ void sensor_sweep()
         }
         j = 0;
 
+        //
+        //
+
+        float radius = ping_distance();
+
+        bool object_detected = false;
+
+        //
+        //
+
         cyBot_sendByte('\t'); //Send ping value
         char val1[4];
-        sprintf(val1, "%f", scan.sound_dist);
+        sprintf(val1, "%f", radius);
 
         while (val1[j] != '\0')
         {
@@ -87,6 +94,36 @@ void sensor_sweep()
         char val2[4];
         sprintf(val2, "%d", scan.IR_raw_val);
 
+        //
+        //
+        //
+
+        //compare current to temp
+        if (i == 0)
+        {
+            current = radius;
+
+        }
+        else
+        {
+            temp = current;
+            current = radius;
+        }
+
+        if (current - temp >= 10 || current - temp <= -10) { //10 cm threshold value
+            if (!object_detected) {
+                object_detected = true;
+                start_angle = i;
+            } else {
+                object_detected = false;
+                stop_angle = i;
+            }
+        }
+
+        //
+        //
+        //
+
         while (val2[j] != '\0')
         {
             cyBot_sendByte(val2[j]);
@@ -98,5 +135,14 @@ void sensor_sweep()
         cyBot_sendByte('\n');
         cyBot_sendByte('\r');
     }
+}
+
+float convert_distance(float angle, float radius)
+{
+    float angle_rad = (angle / 180) * 3.14;
+
+    float linear_distance = angle_rad * radius;
+
+    return linear_distance;
 }
 
