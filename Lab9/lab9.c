@@ -6,6 +6,9 @@
 #include "ping_distance.h"
 #include "stdbool.h"
 
+int start_angle = 0;
+int stop_angle = 0;
+int object_distance = 0;
 /*
  * lab9.c
  *
@@ -13,7 +16,20 @@
  *      Author: Seth Braddock
  */
 
-void sensor_sweep()
+int get_start_angle()
+{
+    return start_angle;
+}
+int get_stop_angle()
+{
+    return stop_angle;
+}
+int get_object_distance()
+{
+    return object_distance;
+}
+
+void scan_init()
 {
     cyBot_uart_init_clean(); // Clean UART initialization, before running your UART GPIO init code
 
@@ -33,7 +49,10 @@ void sensor_sweep()
     cyBot_uart_init_last_half();  // Complete the UART device configuration
     cyBOT_init_Scan();
 
-    cyBOT_Scan_t scan;
+}
+void sensor_sweep()
+{
+    cyBOT_Scan_t scan; //scan struct
 
     char header[] = "Angle\tPING Distance\tIR raw value";
 
@@ -48,14 +67,14 @@ void sensor_sweep()
     cyBot_sendByte('\n');
     cyBot_sendByte('\r');
 
+    //
+    //
+
     int temp = 0; //temp for comparing IR values
     int current = 0;
 
-    int start_angle = 0;
-    int stop_angle = 0;
-
     int i;
-    for (i = 0; i <= 180; i += 5)
+    for (i = 0; i <= 180; i += 2)
     {
         //Scan and print i
         cyBOT_Scan(i, &scan);
@@ -69,11 +88,10 @@ void sensor_sweep()
         }
         j = 0;
 
-        //
+        // CALLS PING DISTANCE TO DISPLAY ON LCD
         //
 
         float radius = ping_distance();
-
         bool object_detected = false;
 
         //
@@ -90,16 +108,20 @@ void sensor_sweep()
         }
         j = 0;
 
+        //
+        //
+
+        //
+        //
+
         cyBot_sendByte('\t');  //Send IR value
         char val2[4];
         sprintf(val2, "%d", scan.IR_raw_val);
 
         //
-        //
-        //
+        // CHECKS TO UPDATE IF OBJECT THRESHOLD PRESENT
 
-        //compare current to temp
-        if (i == 0)
+        if (i == 0) //compare current to temp
         {
             current = radius;
 
@@ -110,17 +132,21 @@ void sensor_sweep()
             current = radius;
         }
 
-        if (current - temp >= 10 || current - temp <= -10) { //10 cm threshold value
-            if (!object_detected) {
+        if (current - temp >= 10 || current - temp <= -10)
+        {
+            if (!object_detected) //10 cm threshold value
+            {
                 object_detected = true;
                 start_angle = i;
-            } else {
+                object_distance = radius;
+            }
+            else
+            {
                 object_detected = false;
                 stop_angle = i;
             }
         }
 
-        //
         //
         //
 

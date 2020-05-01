@@ -21,9 +21,7 @@ main.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/string.
 main.obj: ../cyBot_Scan.h
 main.obj: ../cybot_uart.h
 main.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/stdlib.h
-main.obj: ../lab9.c
-main.obj: ../ping.h
-main.obj: ../ping_distance.h
+main.obj: ../lab9.h
 
 ../main.c: 
 ../Timer.h: 
@@ -46,6 +44,4 @@ C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/string.h:
 ../cyBot_Scan.h: 
 ../cybot_uart.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/stdlib.h: 
-../lab9.c: 
-../ping.h: 
-../ping_distance.h: 
+../lab9.h: 

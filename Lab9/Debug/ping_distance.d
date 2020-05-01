@@ -19,6 +19,7 @@ ping_distance.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/includ
 ping_distance.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/stdarg.h
 ping_distance.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/string.h
 ping_distance.obj: ../ping.h
+ping_distance.obj: C:/ti/TivaWare_C_Series-2.1.4.178/driverlib/interrupt.h
 
 ../ping_distance.c: 
 C:/Users/Seth\ Braddock/Documents/School\ stuff/CprE288/Project288-Lab9/Lab9/REF_tm4c123gh6pm.h: 
@@ -39,3 +40,4 @@ C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/linkage.h:
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/stdarg.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/string.h: 
 ../ping.h: 
+C:/ti/TivaWare_C_Series-2.1.4.178/driverlib/interrupt.h: 

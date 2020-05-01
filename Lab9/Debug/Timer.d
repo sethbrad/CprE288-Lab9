@@ -12,6 +12,7 @@ Timer.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/sys/_t
 Timer.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/machine/_types.h
 Timer.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/machine/_stdint.h
 Timer.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/sys/_stdint.h
+Timer.obj: C:/ti/TivaWare_C_Series-2.1.4.178/driverlib/interrupt.h
 
 ../Timer.c: 
 ../Timer.h: 
@@ -25,3 +26,4 @@ C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/sys/_types.h:
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/machine/_types.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/machine/_stdint.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/sys/_stdint.h: 
+C:/ti/TivaWare_C_Series-2.1.4.178/driverlib/interrupt.h: 

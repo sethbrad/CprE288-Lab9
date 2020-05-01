@@ -9,6 +9,7 @@
 // TODO: Check value of MICROS_PER_TICK
 
 #include "Timer.h"
+#include "driverlib/interrupt.h"
 
 // 65000 gives a countdown time of exactly 65ms TODO: is it 65000 or 64999?
 #define MICROS_PER_TICK 64999UL // Number of microseconds in one timer cycle

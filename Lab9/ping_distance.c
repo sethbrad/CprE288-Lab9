@@ -2,6 +2,7 @@
 #include "Timer.h"
 #include "lcd.h"
 #include "ping.h"
+#include "driverlib/interrupt.h"
 
 //Global variables to store values from the IBR_R register
 extern volatile long risingEdge;

@@ -26,6 +26,7 @@ ORDERED_OBJS += \
 "../tm4c123gh6pm.cmd" \
 $(GEN_CMDS__FLAG) \
 -llibc.a \
+-l"C:/ti/TivaWare_C_Series-2.1.4.178/driverlib/ccs/Debug/driverlib.lib" \
 
 -include ../makefile.init
 
@@ -152,7 +153,7 @@ all: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
 Lab9.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: ARM Linker'
-	"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"Lab9.map" --heap_size=0 --stack_size=512 -i"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/lib" -i"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Lab9_linkInfo.xml" --rom_model -o "Lab9.out" $(ORDERED_OBJS)
+	"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"Lab9.map" --heap_size=4096 --stack_size=4096 -i"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/lib" -i"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Lab9_linkInfo.xml" --rom_model -o "Lab9.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
