@@ -23,6 +23,7 @@ open_interface.obj: ../Timer.h
 open_interface.obj: C:/Users/Seth\ Braddock/Documents/School\ stuff/CprE288/Project288-Lab9/Lab9/REF_tm4c123gh6pm.h
 open_interface.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/stdbool.h
 open_interface.obj: ../lcd.h
+open_interface.obj: C:/ti/TivaWare_C_Series-2.1.4.178/driverlib/interrupt.h
 
 ../open_interface.c: 
 ../open_interface.h: 
@@ -47,3 +48,4 @@ C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/machine/_limits.h
 C:/Users/Seth\ Braddock/Documents/School\ stuff/CprE288/Project288-Lab9/Lab9/REF_tm4c123gh6pm.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/stdbool.h: 
 ../lcd.h: 
+C:/ti/TivaWare_C_Series-2.1.4.178/driverlib/interrupt.h: 

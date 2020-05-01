@@ -24,7 +24,7 @@ int main(void)
 
     //point servo at object
     cyBOT_Scan_t scan;
-    cyBOT_Scan(start_angle + angle_spread / 2, &scan);
+    cyBOT_Scan(get_start_angle() + angle_spread / 2, &scan);
 
     //convert to linear width
     result = convert_distance(angle_spread, get_object_distance());

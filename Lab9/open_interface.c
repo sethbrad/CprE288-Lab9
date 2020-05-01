@@ -7,7 +7,6 @@
  *		Author: Isaac Rex
  */
 
-
 /*
  * Open Interface
  *
@@ -16,6 +15,7 @@
  */
 
 #include "open_interface.h"
+#include "driverlib/interrupt.h"
 
 #define OI_OPCODE_START 128
 #define OI_OPCODE_BAUD 129
@@ -55,7 +55,6 @@
 #define OI_OPCODE_SCHEDULE 167
 #define OI_OPCODE_SCHED_LED 162 // MONDAY THROUGH SUNDAY LEDS
 #define OI_OPCODE_7SEG 163
-
 
 // Contains Packets 7-26
 #define OI_SENSOR_PACKET_GROUP0 0
@@ -123,9 +122,8 @@ int16_t oi_parseInt(uint8_t *theInt);
 /// Allocate and clear all memory for OI Struct
 oi_t *oi_alloc()
 {
-	return calloc(1, sizeof(oi_t));
+    return calloc(1, sizeof(oi_t));
 }
-
 
 /// Free memory from pointer to Open Interface Struct
 void oi_free(oi_t *self)
@@ -182,7 +180,8 @@ void oi_update(oi_t *self)
 
     // Read all the sensor data
     uint8_t i;
-    for (i = 0; i < SENSOR_PACKET_SIZE; i++) {
+    for (i = 0; i < SENSOR_PACKET_SIZE; i++)
+    {
         // read each sensor byte
         sensorBuffer[i] = oi_uartReceive();
     }
@@ -299,7 +298,8 @@ inline int16_t oi_parseInt(uint8_t *theInt)
 /// \param advance_led 0=off, 1=on
 /// \param power_color (0-255), 0=green, 255=red
 /// \param power_intensity (0-255) 0=off, 255=full intensity
-void oi_setLeds(uint8_t play_led, uint8_t advance_led, uint8_t power_color, uint8_t power_intensity)
+void oi_setLeds(uint8_t play_led, uint8_t advance_led, uint8_t power_color,
+                uint8_t power_intensity)
 {
     // LED Opcode
     oi_uartSendChar(OI_OPCODE_LEDS);
@@ -333,40 +333,44 @@ void oi_setWheels(int16_t right_wheel, int16_t left_wheel)
 /// \param An integer value from 1 - 16 indicating the number of notes in the
 /// sequence \param A pointer to a sequence of notes stored as integer values
 /// \param A pointer to a sequence of durations that correspond to the notes
-void oi_loadSong(int song_index, int num_notes, unsigned char *notes, unsigned char *duration)
+void oi_loadSong(int song_index, int num_notes, unsigned char *notes,
+                 unsigned char *duration)
 {
     int i;
     oi_uartSendChar(OI_OPCODE_SONG);
     oi_uartSendChar(song_index);
     oi_uartSendChar(num_notes);
-    for (i = 0; i < num_notes; i++) {
+    for (i = 0; i < num_notes; i++)
+    {
         oi_uartSendChar(notes[i]);
         oi_uartSendChar(duration[i]);
     }
 }
 
 /// Plays a given song; use oi_load_song(...) first
-void oi_play_song(int index) {
+void oi_play_song(int index)
+{
     oi_uartSendChar(OI_OPCODE_PLAY);
     oi_uartSendChar(index);
 }
 
 /// Runs default go charge program; robot will search for dock
-void go_charge(void) {
+void go_charge(void)
+{
     char charging_state = 0;
 
     /*	//Calling demo that will cause Create to seek out home base
-   oi_uartSendChar(OI_OPCODE_MAX);
-   oi_uartSendChar(0x01);
+     oi_uartSendChar(OI_OPCODE_MAX);
+     oi_uartSendChar(0x01);
 
-   //Control is returned immediately, so need to check for docking status
-   DDRB &= ~0x80; //Setting pin7 to input
-   PORTB |= 0x80; //Setting pullup on pin7
+     //Control is returned immediately, so need to check for docking status
+     DDRB &= ~0x80; //Setting pin7 to input
+     PORTB |= 0x80; //Setting pullup on pin7
 
-   do {
-   charging_state = PINB >> 7;
-   } while (charging_state == 0);
-   */
+     do {
+     charging_state = PINB >> 7;
+     } while (charging_state == 0);
+     */
 }
 
 ///	\brief Initialize UART4 for OI Communication and Debugging
@@ -376,16 +380,14 @@ void oi_uartInit(void)
     // Calculated Baudrate for 115200;
     uint16_t iBRD = 0x08; // BRD=SYSCLK/((ClkDiv)(BaudRate)), HSE=0 ClkDiv=16,
                           // BaudRate=115,200
-    uint16_t fBRD =
-        44; // Fractional remainder is 0.6805, DIVFRAC = (.6805)(64)+0.5 = 44
+    uint16_t fBRD = 44; // Fractional remainder is 0.6805, DIVFRAC = (.6805)(64)+0.5 = 44
 
     SYSCTL_RCGCGPIO_R |= SYSCTL_RCGCGPIO_R2; // enable GPIO Port C
 
     SYSCTL_RCGCUART_R |= SYSCTL_RCGCUART_R4; // enable UART4
 
     GPIO_PORTC_AFSEL_R |= (BIT4 | BIT5); // Enable alternate function on PC6,PC7
-    GPIO_PORTC_PCTL_R |=
-        0x00110000; // Enable function 1 (UART Rx/Tx) on PC4,PC5
+    GPIO_PORTC_PCTL_R |= 0x00110000; // Enable function 1 (UART Rx/Tx) on PC4,PC5
     GPIO_PORTC_DEN_R |= (BIT4 | BIT5); // Enable PC4,5 data
     GPIO_PORTC_DIR_R |= BIT5;          // Set pin direction to output on PC5
     GPIO_PORTC_DIR_R &= ~BIT4;         // Set pin direction to input on PC4
@@ -398,14 +400,15 @@ void oi_uartInit(void)
     UART4_LCRH_R = UART_LCRH_WLEN_8; // 8 bit, 1 stop, no parity, no FIFO
     UART4_CC_R = UART_CC_CS_SYSCLK;  // Use System Clock
     UART4_CTL_R = UART_CTL_RXE | UART_CTL_TXE |
-                  UART_CTL_UARTEN; // Enable Rx, Tx and UART module
+    UART_CTL_UARTEN; // Enable Rx, Tx and UART module
 }
 
 /// transmit character
 ///	internal function
 void oi_uartSendChar(char data)
 {
-    while ((UART4_FR_R & UART_FR_TXFF) != 0); // holds until no data in transmit buffer
+    while ((UART4_FR_R & UART_FR_TXFF) != 0)
+        ; // holds until no data in transmit buffer
 
     UART4_DR_R = data; // puts data in transmission buffer
 
@@ -422,7 +425,7 @@ char oi_uartReceive(void)
     while ((UART4_FR_R & UART_FR_RXFE))
         ; // wait here until data is recieved
 
-    data = (char)(UART4_DR_R & 0xFF);
+    data = (char) (UART4_DR_R & 0xFF);
 
     count++;
 
@@ -433,7 +436,8 @@ char oi_uartReceive(void)
 /// transmit character array
 void oi_uartSendStr(const char *theData)
 {
-    while (*theData != '\0') {
+    while (*theData != '\0')
+    {
         oi_uartSendChar(*theData);
         theData++;
     }
@@ -443,7 +447,8 @@ void oi_uartSendBuff(const uint8_t theData[], uint8_t theSize)
 {
     int i;
 
-    for (i = 0; i < theSize; i++) {
+    for (i = 0; i < theSize; i++)
+    {
         oi_uartSendChar(theData[i]);
     }
 }
@@ -463,16 +468,18 @@ char *oi_checkFirmware()
     oi_uartSendChar(OI_OPCODE_RESET);
 
     char c;
-    while ((c = oi_uartReceive()) || 1) {
+    while ((c = oi_uartReceive()) || 1)
+    {
         buffer[ptr++] = c;
 
         // Do a string compare
         buffer[ptr] = '\0';
-        if (ptr >= FIRM_STRLEN &&
-            !strcmp(buffer + ptr - FIRM_STRLEN, FIRM_STR)) {
+        if (ptr >= FIRM_STRLEN && !strcmp(buffer + ptr - FIRM_STRLEN, FIRM_STR))
+        {
             ptr = 0;
             // Firmware version incoming
-            while ((c = oi_uartReceive()) != FIRM_END) {
+            while ((c = oi_uartReceive()) != FIRM_END)
+            {
                 firmware[ptr++] = c;
             }
 
@@ -507,7 +514,8 @@ void oi_shutoff_init(void)
 
 void GPIOF_Handler(void)
 {
-    if (GPIO_PORTF_RIS_R & BIT0) {
+    if (GPIO_PORTF_RIS_R & BIT0)
+    {
         // shutoff button was pressed, turn off OI
         oi_close();
 
@@ -539,15 +547,17 @@ static double oi_getRadians(oi_t *self)
     static int prevLeft = 0;
     static int prevRight = 0;
 
-    if ((self->leftEncoderCount == prevLeft) &&
-        (self->rightEncoderCount == prevRight)) {
+    if ((self->leftEncoderCount == prevLeft)
+            && (self->rightEncoderCount == prevRight))
+    {
         prevLeft = self->leftEncoderCount;
         prevRight = self->rightEncoderCount;
         return 0;
     }
     // ignore the first run, such that we do not have prevLeft or right=0, this
     // would give a very large degree moved.
-    else if (first_pass) {
+    else if (first_pass)
+    {
         // Gets processed durint oi_init()
         prevLeft = self->leftEncoderCount;
         prevRight = self->rightEncoderCount;
@@ -616,7 +626,10 @@ void oi_setMotorCalibration(double left, double right)
  *
  * @return double left motor calibration factor
  */
-double oi_getMotorCalibrationLeft(void) { return motor_cal_factor_L; }
+double oi_getMotorCalibrationLeft(void)
+{
+    return motor_cal_factor_L;
+}
 
 /**
  * @brief Returns the calibration factor set for the right motor.
@@ -624,5 +637,8 @@ double oi_getMotorCalibrationLeft(void) { return motor_cal_factor_L; }
  *
  * @return double right motor calibration factor
  */
-double oi_getMotorCalibrationRight(void) { return motor_cal_factor_R; }
+double oi_getMotorCalibrationRight(void)
+{
+    return motor_cal_factor_R;
+}
 
