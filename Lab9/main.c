@@ -12,6 +12,8 @@ int main(void)
 
     timer_init();
     lcd_init();
+    servo_init();
+    adc_init();
 
     //sweep sensors and displays on Putty
     scan_init();
@@ -23,8 +25,9 @@ int main(void)
     int result;
 
     //point servo at object
-    cyBOT_Scan_t scan;
-    cyBOT_Scan(get_start_angle() + angle_spread / 2, &scan);
+
+    servo_init();
+    servo_move((get_start_angle() + angle_spread) / 2);
 
     //convert to linear width
     result = convert_distance(angle_spread, get_object_distance());

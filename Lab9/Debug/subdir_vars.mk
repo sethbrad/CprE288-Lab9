@@ -22,6 +22,7 @@ C_SRCS += \
 ../open_interface.c \
 ../ping.c \
 ../ping_distance.c \
+../servo.c \
 ../tm4c123gh6pm_startup_ccs.c \
 ../uart.c 
 
@@ -35,6 +36,7 @@ C_DEPS += \
 ./open_interface.d \
 ./ping.d \
 ./ping_distance.d \
+./servo.d \
 ./tm4c123gh6pm_startup_ccs.d \
 ./uart.d 
 
@@ -48,6 +50,7 @@ OBJS += \
 ./open_interface.obj \
 ./ping.obj \
 ./ping_distance.obj \
+./servo.obj \
 ./tm4c123gh6pm_startup_ccs.obj \
 ./uart.obj 
 
@@ -61,6 +64,7 @@ OBJS__QUOTED += \
 "open_interface.obj" \
 "ping.obj" \
 "ping_distance.obj" \
+"servo.obj" \
 "tm4c123gh6pm_startup_ccs.obj" \
 "uart.obj" 
 
@@ -74,6 +78,7 @@ C_DEPS__QUOTED += \
 "open_interface.d" \
 "ping.d" \
 "ping_distance.d" \
+"servo.d" \
 "tm4c123gh6pm_startup_ccs.d" \
 "uart.d" 
 
@@ -87,6 +92,7 @@ C_SRCS__QUOTED += \
 "../open_interface.c" \
 "../ping.c" \
 "../ping_distance.c" \
+"../servo.c" \
 "../tm4c123gh6pm_startup_ccs.c" \
 "../uart.c" 
 

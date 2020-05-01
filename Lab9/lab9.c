@@ -1,10 +1,12 @@
 #include "Timer.h"
 #include "lcd.h"
-#include "cyBot_Scan.h"
 #include "cybot_uart.h"
 #include "ping.h"
 #include "ping_distance.h"
 #include "stdbool.h"
+#include "servo.h"
+#include "math.h"
+#include "adc.h"
 
 int start_angle = 0;
 int stop_angle = 0;
@@ -47,12 +49,11 @@ void scan_init()
     GPIO_PORTB_DIR_R |= 0b00000010;
 
     cyBot_uart_init_last_half();  // Complete the UART device configuration
-    cyBOT_init_Scan();
+
 
 }
 void sensor_sweep()
 {
-    cyBOT_Scan_t scan; //scan struct
 
     char header[] = "Angle\tPING Distance\tIR raw value";
 
@@ -74,10 +75,10 @@ void sensor_sweep()
     int current = 0;
 
     int i;
-    for (i = 0; i <= 180; i += 2)
+    for (i = 0; i <= 180; i += 2) //Scan and print i
     {
-        //Scan and print i
-        cyBOT_Scan(i, &scan);
+        servo_move(i); //position servo
+
         char val[4];
         sprintf(val, "%d", i);
 
@@ -109,27 +110,31 @@ void sensor_sweep()
         j = 0;
 
         //
-        //
+        // CONVERT RAW IR VALUE
+
+        double numerator = 3.3 * adc_read();
+        double voltage = numerator / 4095;
+        float ir_dist = 39.606 * pow(voltage, -1.874);
 
         //
         //
 
         cyBot_sendByte('\t');  //Send IR value
         char val2[4];
-        sprintf(val2, "%d", scan.IR_raw_val);
+        sprintf(val2, "%f", ir_dist);
 
         //
         // CHECKS TO UPDATE IF OBJECT THRESHOLD PRESENT
 
         if (i == 0) //compare current to temp
         {
-            current = radius;
+            current = ir_dist;
 
         }
         else
         {
             temp = current;
-            current = radius;
+            current = ir_dist;
         }
 
         if (current - temp >= 10 || current - temp <= -10)
