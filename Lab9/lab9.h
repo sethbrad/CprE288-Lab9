@@ -15,6 +15,12 @@ int get_object_distance();
 //UART and GPIO initialization
 void scan_init(void);
 
+//formats data for putty
+void send_to_putty(float data);
+
+//reads from adc for IR distance
+float ir_convert(void);
+
 //sends string to Putty
 void send_String(char str[]);
 

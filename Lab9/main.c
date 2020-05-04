@@ -27,7 +27,6 @@ int main(void)
     int result;
 
     //point servo at object
-    servo_init();
     servo_move(get_start_angle() + (angle_spread / 2));
 
     //convert to linear width

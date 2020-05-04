@@ -31,6 +31,33 @@ int get_object_distance()
     return object_distance;
 }
 
+void send_String(char str[])
+{
+    int j = 0;
+    while (str[j] != '\0')
+    {
+        cyBot_sendByte(str[j]);
+        j++;
+    }
+}
+
+void send_to_putty(float data)
+{
+    char val[4];
+    sprintf(val, "%f", data);
+    send_String(val);
+    cyBot_sendByte('\t');
+}
+
+float ir_convert()
+{
+    double numerator = 3.3 * adc_read();
+    double voltage = numerator / 4095;
+    float ir_dist = 39.606 * pow(voltage, -1.874);
+
+    return ir_dist;
+}
+
 void scan_init()
 {
     cyBot_uart_init_clean(); // Clean UART initialization, before running your UART GPIO init code
@@ -52,16 +79,6 @@ void scan_init()
 
 }
 
-void send_String(char str[])
-{
-
-    int j = 0;
-    while (str[j] != '\0')
-    {
-        cyBot_sendByte(str[j]);
-        j++;
-    }
-}
 void sensor_sweep()
 {
 
@@ -81,34 +98,20 @@ void sensor_sweep()
         servo_move(i); //position servo
 
         //send position
-        char val[4];
-        sprintf(val, "%d", i);
-        send_String(val);
-        cyBot_sendByte('\t');
+        send_to_putty(i);
 
         // CALLS PING DISTANCE TO DISPLAY ON LCD
-        //
-
         float radius = ping_distance();
         bool object_detected = false;
 
         //Send ping value
-        char val1[4];
-        sprintf(val1, "%f", radius);
-        send_String(val1);
-        cyBot_sendByte('\t');
+        send_to_putty(radius);
 
-        //
         // CONVERT RAW IR VALUE
-
-        double numerator = 3.3 * adc_read();
-        double voltage = numerator / 4095;
-        float ir_dist = 39.606 * pow(voltage, -1.874);
+        float ir_dist = ir_convert();
 
         //Send IR value
-        char val2[4];
-        sprintf(val2, "%f", ir_dist);
-        send_String(val2);
+        send_to_putty(ir_dist);
 
         //Newline and return
         cyBot_sendByte('\n');
@@ -142,7 +145,6 @@ void sensor_sweep()
                 stop_angle = i;
             }
         }
-
     }
 }
 
