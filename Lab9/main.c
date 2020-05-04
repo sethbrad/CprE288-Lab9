@@ -3,6 +3,8 @@
 #include "cyBot_Scan.h"
 #include "cybot_uart.h"
 #include "lab9.h"
+#include "servo.h"
+#include "adc.h"
 
 /**
  * main.c
@@ -25,7 +27,6 @@ int main(void)
     int result;
 
     //point servo at object
-
     servo_init();
     servo_move((get_start_angle() + angle_spread) / 2);
 

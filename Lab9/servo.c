@@ -22,11 +22,10 @@ void servo_init()
     TIMER1_CTL_R &= 0xEFF; //Disable timer B before editing
     TIMER1_CFG_R |= 0x4; //enable Timer 1B as 16-bit
     TIMER1_TBMR_R |= 0xA; //configure PWM for the timer
-    TIMER1_CTL_R &= ~0x4000; //make non-inverting
 
     TIMER1_TBPR_R |= 0x4; //Set 8-bit prescaler
     TIMER1_TBILR_R &= ~0xFFFF;
-    TIMER1_TBILR_R |= 0xE200;//Set the start value
+    TIMER1_TBILR_R |= 0xE200; //Set the start value
     TIMER1_TBPMR_R |= 0x4; //Set 8-bit prescaler
     TIMER1_TBMATCHR_R |= 0x8440; //Set 8-bit match register
     TIMER1_CTL_R |= 0x100; //Re-enable timer B
@@ -36,10 +35,10 @@ int servo_move(float degrees)
 {
 
     float high_time = ((degrees / 180) * 0.001) + 0.001;
-    int low_time = 0.02 - high_time;
+    float low_time = 0.02 - high_time;
     int match_val = low_time * 16000000;
 
-    int upper_part = match_val << 16; //grab the first two nibbles
+    int upper_part = match_val >> 16; //grab the first two nibbles
     int lower_part = match_val & 0x00FFFF; //mask off the first two nibbles
 
     TIMER1_CTL_R &= 0xEFF; //Disable timer B before editing

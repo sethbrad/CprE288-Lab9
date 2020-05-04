@@ -50,44 +50,41 @@ void scan_init()
 
     cyBot_uart_init_last_half();  // Complete the UART device configuration
 
+}
 
+void send_String(char str[])
+{
+
+    int j = 0;
+    while (str[j] != '\0')
+    {
+        cyBot_sendByte(str[j]);
+        j++;
+    }
 }
 void sensor_sweep()
 {
 
+    //send header labels
     char header[] = "Angle\tPING Distance\tIR raw value";
-
-    int j = 0;
-    while (header[j] != '\0') //send header labels
-    {
-        cyBot_sendByte(header[j]);
-        j++;
-    }
-    j = 0;
+    send_String(header);
 
     cyBot_sendByte('\n');
     cyBot_sendByte('\r');
 
-    //
-    //
-
-    int temp = 0; //temp for comparing IR values
+    int temp = 0; //vars for comparing IR values
     int current = 0;
 
     int i;
-    for (i = 0; i <= 180; i += 2) //Scan and print i
+    for (i = 0; i <= 180; i += 2) //Scan and print
     {
         servo_move(i); //position servo
 
+        //send position
         char val[4];
         sprintf(val, "%d", i);
-
-        while (val[j] != '\0')
-        {
-            cyBot_sendByte(val[j]);
-            j++;
-        }
-        j = 0;
+        send_String(val);
+        cyBot_sendByte('\t');
 
         // CALLS PING DISTANCE TO DISPLAY ON LCD
         //
@@ -95,19 +92,11 @@ void sensor_sweep()
         float radius = ping_distance();
         bool object_detected = false;
 
-        //
-        //
-
-        cyBot_sendByte('\t'); //Send ping value
+        //Send ping value
         char val1[4];
         sprintf(val1, "%f", radius);
-
-        while (val1[j] != '\0')
-        {
-            cyBot_sendByte(val1[j]);
-            j++;
-        }
-        j = 0;
+        send_String(val1);
+        cyBot_sendByte('\t');
 
         //
         // CONVERT RAW IR VALUE
@@ -116,12 +105,14 @@ void sensor_sweep()
         double voltage = numerator / 4095;
         float ir_dist = 39.606 * pow(voltage, -1.874);
 
-        //
-        //
-
-        cyBot_sendByte('\t');  //Send IR value
+        //Send IR value
         char val2[4];
         sprintf(val2, "%f", ir_dist);
+        send_String(val2);
+
+        //Newline and return
+        cyBot_sendByte('\n');
+        cyBot_sendByte('\r');
 
         //
         // CHECKS TO UPDATE IF OBJECT THRESHOLD PRESENT
@@ -152,19 +143,6 @@ void sensor_sweep()
             }
         }
 
-        //
-        //
-
-        while (val2[j] != '\0')
-        {
-            cyBot_sendByte(val2[j]);
-            j++;
-        }
-        j = 0;
-
-        //Newline and return
-        cyBot_sendByte('\n');
-        cyBot_sendByte('\r');
     }
 }
 

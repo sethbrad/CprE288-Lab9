@@ -15,6 +15,9 @@ int get_object_distance();
 //UART and GPIO initialization
 void scan_init(void);
 
+//sends string to Putty
+void send_String(char str[]);
+
 //cyBot_Scan and send data to Putty
 void sensor_sweep(void);
 

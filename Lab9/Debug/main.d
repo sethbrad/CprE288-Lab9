@@ -22,6 +22,9 @@ main.obj: ../cyBot_Scan.h
 main.obj: ../cybot_uart.h
 main.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/stdlib.h
 main.obj: ../lab9.h
+main.obj: ../servo.h
+main.obj: C:/ti/TivaWare_C_Series-2.1.4.178/inc/tm4c123gh6pm.h
+main.obj: ../adc.h
 
 ../main.c: 
 ../Timer.h: 
@@ -45,3 +48,6 @@ C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/string.h:
 ../cybot_uart.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.5.LTS/include/stdlib.h: 
 ../lab9.h: 
+../servo.h: 
+C:/ti/TivaWare_C_Series-2.1.4.178/inc/tm4c123gh6pm.h: 
+../adc.h: 
