@@ -148,7 +148,7 @@ void sensor_sweep()
 
 float convert_distance(float angle, float radius)
 {
-    float angle_rad = (angle / 180) * 3.14;
+    float angle_rad = angle * (3.14 / 180);
 
     float linear_distance = angle_rad * radius;
 

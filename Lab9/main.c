@@ -28,7 +28,7 @@ int main(void)
 
     //point servo at object
     servo_init();
-    servo_move((get_start_angle() + angle_spread) / 2);
+    servo_move(get_start_angle() + (angle_spread / 2));
 
     //convert to linear width
     result = convert_distance(angle_spread, get_object_distance());
