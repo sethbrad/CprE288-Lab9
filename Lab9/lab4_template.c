@@ -9,17 +9,17 @@
  * @author Phillip Jones, updated 6/4/2019
  */
 
-#include "timer.h"
 #include "lcd.h"
+#include "timer.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "cyBot_uart.h"  // Functions for communicating between CyBot and Putty (via UART1)
+#include "cyBot_uart.h" // Functions for communicating between CyBot and Putty (via UART1)
 // PuTTy: Baud=115200, 8 data bits, No Flow Control, No Parity, COM1
 
-#include "cyBot_Scan.h"  // For scan sensors
+#include "cyBot_Scan.h" // For scan sensors
 
-//#define REPLACEME 0
+// #define REPLACEME 0
 
 /*
  int main(void)
@@ -31,11 +31,12 @@
  // initialize the cyBot UART1 before trying to use it
 
  //(Uncomment ME for PuTTy to CyBot UART init part of lab)
- cyBot_uart_init_clean(); // Clean UART initialization, before running your UART GPIO init code
+ cyBot_uart_init_clean(); // Clean UART initialization, before running your UART
+ GPIO init code
 
- // Complete this code for configuring the GPIO PORTB part of UART1 initialization (your UART GPIO init code)
- SYSCTL_RCGCGPIO_R |= 0b00000010; //0b1 0000
- while ((SYSCTL_PRGPIO_R & 0b10) == 0)
+ // Complete this code for configuring the GPIO PORTB part of UART1
+ initialization (your UART GPIO init code) SYSCTL_RCGCGPIO_R |= 0b00000010;
+ //0b1 0000 while ((SYSCTL_PRGPIO_R & 0b10) == 0)
  {
  };
 
@@ -125,4 +126,3 @@
  }
  }
  */
-

@@ -1,5 +1,4 @@
 #include "Timer.h"
-#include "driverlib/interrupt.h"
 #include "lcd.h"
 #include "ping.h"
 #include <REF_tm4c123gh6pm.h>
@@ -13,9 +12,9 @@ volatile int counter = 0;
 void interruptHandler(void);
 
 /**
- * grabs ping distance val
+ * main.c
  */
-float ping_distance() {
+int main(void) {
   // makes sure to run the interrupt handler when one occurs in Timer 3B
   IntRegister(INT_TIMER3B, interruptHandler);
 
@@ -28,13 +27,21 @@ float ping_distance() {
   // set the priority of that bit to 3
   NVIC_PRI9_R |= 0xE0;
 
+  // Always initialize the timer first
+  timer_init();
+
+  // Initialize the LCD function
+  lcd_init();
+
   // initialize the ultrasonic sensor
-  ping_initi();
+  ping_init();
 
-  ping_trig();
-  float distance = ping_getDist(risingEdge, fallingEdge);
-
-  return distance;
+  while (1) {
+    ping_trigger();
+    long distance = ping_getDistance(risingEdge, fallingEdge);
+    lcd_printf("%f cm", distance);
+    timer_waitMillis(500);
+  }
 }
 
 void interruptHandler() {

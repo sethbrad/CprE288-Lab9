@@ -1,7 +1,9 @@
 
-#include <REF_tm4c123gh6pm.h>
+#include "driverlib/interrupt.h"
+#include <inc/tm4c123gh6pm.h>
 #include <stdbool.h>
 #include <stdint.h>
+
 
 void adc_init(void) {
   // initialize the system clock

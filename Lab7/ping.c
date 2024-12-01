@@ -15,7 +15,7 @@ int numOverflow;
 long totalClockCycles;
 
 // initialize the timer
-void ping_initi(void) {
+void ping_init(void) {
   // enable clock for Timer 3
   SYSCTL_RCGCTIMER_R = 0x8;
 
@@ -60,7 +60,7 @@ void ping_initi(void) {
 }
 
 // activate the PING sensor
-void ping_trig(void) {
+void ping_trigger(void) {
   // enable clock to GPIO port B
   SYSCTL_RCGCGPIO_R |= 0b00000010;
 
@@ -113,7 +113,7 @@ void ping_trig(void) {
 }
 
 // calculate distance
-long ping_getDist(long start, long stop) {
+long ping_getDistance(long start, long stop) {
   risingEdge = start;
   fallingEdge = stop;
   // This would be a case of overflow

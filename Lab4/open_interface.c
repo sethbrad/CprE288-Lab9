@@ -15,7 +15,6 @@
  */
 
 #include "open_interface.h"
-#include "driverlib/interrupt.h"
 
 #define OI_OPCODE_START 128
 #define OI_OPCODE_BAUD 129
@@ -342,17 +341,17 @@ void go_charge(void) {
   char charging_state = 0;
 
   /*	//Calling demo that will cause Create to seek out home base
-   oi_uartSendChar(OI_OPCODE_MAX);
-   oi_uartSendChar(0x01);
+ oi_uartSendChar(OI_OPCODE_MAX);
+ oi_uartSendChar(0x01);
 
-   //Control is returned immediately, so need to check for docking status
-   DDRB &= ~0x80; //Setting pin7 to input
-   PORTB |= 0x80; //Setting pullup on pin7
+ //Control is returned immediately, so need to check for docking status
+ DDRB &= ~0x80; //Setting pin7 to input
+ PORTB |= 0x80; //Setting pullup on pin7
 
-   do {
-   charging_state = PINB >> 7;
-   } while (charging_state == 0);
-   */
+ do {
+ charging_state = PINB >> 7;
+ } while (charging_state == 0);
+ */
 }
 
 ///	\brief Initialize UART4 for OI Communication and Debugging
